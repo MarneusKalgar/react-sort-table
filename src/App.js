@@ -1,25 +1,46 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import SortTable from "./SortTable/SortTable";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: [],
+      openedOnly: false
+    };
+
+    this.doSort = this.doSort.bind(this);
+  }
+
+  doSort(event) {
+    this.setState({
+      openedOnly: event.target.checked
+    })
+  }
+
+  componentDidMount() {
+    fetch("/api/data.json")
+      .then(response => {
+        return response.json();
+      })
+      .then(myJson => {
+        this.setState({
+          data: JSON.parse(JSON.stringify(myJson))
+        });
+      });
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <input
+          name="openedOnly"
+          type="checkbox"
+          checked={this.state.openedOnly}
+          onChange={this.doSort}
+        />
+        <SortTable items={this.state.data} openedOnly={this.state.openedOnly} />
       </div>
     );
   }
