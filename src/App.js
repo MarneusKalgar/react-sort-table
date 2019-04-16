@@ -16,7 +16,7 @@ class App extends Component {
   doSort(event) {
     this.setState({
       openedOnly: event.target.checked
-    })
+    });
   }
 
   componentDidMount() {
@@ -40,7 +40,10 @@ class App extends Component {
           checked={this.state.openedOnly}
           onChange={this.doSort}
         />
-        <SortTable items={this.state.data} openedOnly={this.state.openedOnly} />
+        <SortTable
+          items={this.state.data}
+          openedOnly={this.state.openedOnly}
+        />
       </div>
     );
   }
